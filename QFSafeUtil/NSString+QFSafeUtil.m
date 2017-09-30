@@ -48,22 +48,3 @@
     return nil;
 }
 @end
-
-@implementation NSMutableString (QFSafeUtil)
-+ (void)load {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        [objc_getClass("__NSCFString") methodSwizzleWithOrigSEL:@selector(stringWithString:) overrideSEL:@selector(safe_stringWithString:)];
-    });
-}
-+ (instancetype)safe_stringWithString:(NSString *)str {
-    if([str isKindOfClass:[NSString class]]){
-        return [self safe_stringWithString:str];
-    } else {
-#if DEBUG
-        NSAssert(NO,nil);
-#endif
-    }
-    return nil;
-}
-@end
