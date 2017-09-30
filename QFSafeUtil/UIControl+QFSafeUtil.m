@@ -1,16 +1,16 @@
 //
-//  UIButton+QFSafeUtil.m
+//  UIControl+QFSafeUtil.m
 //  TestProject
 //
 //  Created by dqf on 2017/9/30.
 //  Copyright © 2017年 dqfStudio. All rights reserved.
 //
 
-#import "UIButton+QFSafeUtil.h"
+#import "UIControl+QFSafeUtil.h"
 
 #define defaultInterval 0.5  //默认时间间隔
 
-@interface UIButton()
+@interface UIControl()
 @property (nonatomic, assign) BOOL isIgnoreEvent;
 @end
 

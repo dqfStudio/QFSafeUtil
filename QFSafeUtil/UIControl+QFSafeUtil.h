@@ -1,5 +1,5 @@
 //
-//  UIButton+QFSafeUtil.h
+//  UIControl+QFSafeUtil.h
 //  TestProject
 //
 //  Created by dqf on 2017/9/30.
@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "NSObject+QFSwizzleUtil.h"
 
-@interface UIButton (QFSafeUtil)
+@interface UIControl (QFSafeUtil)
 @property (nonatomic, assign) NSTimeInterval timeInterval;
 @end
