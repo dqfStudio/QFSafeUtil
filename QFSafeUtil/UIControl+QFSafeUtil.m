@@ -14,7 +14,7 @@
 @property (nonatomic, assign) BOOL isIgnoreEvent;
 @end
 
-@implementation UIButton (QFSafeUtil)
+@implementation UIControl (QFSafeUtil)
 + (void)load {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
