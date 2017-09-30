@@ -11,26 +11,33 @@
 #import <objc/message.h>
 
 @interface NSObject (QFNotify)
-@property (nonatomic, copy) NSObject *observer;
+@property (nonatomic, strong) NSMutableArray *observers;
 @end
 
 @implementation NSObject (QFSafeNotify)
 
-- (NSObject *)observer {
+- (NSMutableArray *)observers {
+    if (!objc_getAssociatedObject(self, _cmd)) {
+        objc_setAssociatedObject(self, _cmd, [NSMutableArray new], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
     return objc_getAssociatedObject(self, _cmd);
 }
 
-- (void)setObserver:(NSObject *)observer {
-    objc_setAssociatedObject(self, @selector(observer), observer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setObservers:(NSMutableArray *)observers {
+    objc_setAssociatedObject(self, @selector(observers), observers, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void)registerNoti:(NSString *)name callback:(void(^)(NSNotification * note))callback {
     if (name == nil) return;
-    self.observer = [[NSNotificationCenter defaultCenter] addObserverForName:name object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+    NSObject *observer = [[NSNotificationCenter defaultCenter] addObserverForName:name object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
         if (callback) {
             callback(note);
         }
     }];
+    if (observer) {
+        if ([self.observers containsObject:observer]) [self.observers removeObject:observer];
+        [self.observers addObject:observer];
+    }
 }
 
 - (void)postNoti:(NSString *)name {
