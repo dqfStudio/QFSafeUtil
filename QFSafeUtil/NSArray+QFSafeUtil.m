@@ -15,11 +15,22 @@
     dispatch_once(&onceToken, ^{
         [objc_getClass("__NSPlaceholderArray") methodSwizzleWithOrigSEL:@selector(initWithObjects:count:) overrideSEL:@selector(safe_initWithObjects:count:)];
         [objc_getClass("__NSArrayI") methodSwizzleWithOrigSEL:@selector(objectAtIndex:) overrideSEL:@selector(safe_objectAtIndex:)];
+        [objc_getClass("__NSArrayI") methodSwizzleWithOrigSEL:@selector(objectAtIndexedSubscript:) overrideSEL:@selector(safe_objectAtIndexedSubscript:)];
     });
 }
 - (id)safe_objectAtIndex:(int)index {
     if(index >= 0 && index < self.count) {
         return [self safe_objectAtIndex:index];
+    }else{
+#if DEBUG
+        NSAssert(NO,nil);
+#endif
+    }
+    return nil;
+}
+- (id)safe_objectAtIndexedSubscript:(int)index {
+    if(index >= 0 && index < self.count) {
+        return [self safe_objectAtIndexedSubscript:index];
     }else{
 #if DEBUG
         NSAssert(NO,nil);

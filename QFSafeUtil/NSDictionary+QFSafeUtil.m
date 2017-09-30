@@ -14,11 +14,22 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         [objc_getClass("__NSDictionaryI") methodSwizzleWithOrigSEL:@selector(objectForKey:) overrideSEL:@selector(safe_objectForKey:)];
+        [objc_getClass("__NSDictionaryI") methodSwizzleWithOrigSEL:@selector(objectForKeyedSubscript:) overrideSEL:@selector(safe_objectForKeyedSubscript:)];
     });
 }
 - (nullable id)safe_objectForKey:(id)aKey {
     if (aKey != nil) {
         return [self safe_objectForKey:aKey];
+    }else {
+#if DEBUG
+        NSAssert(NO,nil);
+#endif
+    }
+    return nil;
+}
+- (nullable id)safe_objectForKeyedSubscript:(id)aKey {
+    if (aKey != nil) {
+        return [self safe_objectForKeyedSubscript:aKey];
     }else {
 #if DEBUG
         NSAssert(NO,nil);
