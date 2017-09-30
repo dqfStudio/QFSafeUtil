@@ -1,0 +1,39 @@
+//
+//  NSString+QFSafeUtil.m
+//  TestProject
+//
+//  Created by dqf on 2017/9/30.
+//  Copyright © 2017年 dqfStudio. All rights reserved.
+//
+
+#import "NSString+QFSafeUtil.h"
+
+@implementation NSString (QFSafeUtil)
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [objc_getClass("__NSCFConstantString") methodSwizzleWithOrigSEL:@selector(hasSuffix:) overrideSEL:@selector(safe_hasSuffix:)];
+        [objc_getClass("__NSCFConstantString") methodSwizzleWithOrigSEL:@selector(hasPrefix:) overrideSEL:@selector(safe_hasPrefix:)];
+    });
+}
+- (BOOL)safe_hasSuffix:(NSString *)str {
+    if([str isKindOfClass:[NSString class]]){
+        return [self safe_hasSuffix:str];
+    } else {
+#if DEBUG
+        NSAssert(NO,nil);
+#endif
+    }
+    return NO;
+}
+- (BOOL)safe_hasPrefix:(NSString *)str {
+    if([str isKindOfClass:[NSString class]]){
+        return [self safe_hasPrefix:str];
+    } else {
+#if DEBUG
+        NSAssert(NO,nil);
+#endif
+    }
+    return NO;
+}
+@end

@@ -1,0 +1,61 @@
+//
+//  NSArray+QFSafeUtil.m
+//  TestProject
+//
+//  Created by dqf on 2017/9/29.
+//  Copyright © 2017年 dqfStudio. All rights reserved.
+//
+
+#import "NSArray+QFSafeUtil.h"
+
+@implementation NSArray (QFSafeUtil)
++ (void)load {
+    [super load];
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [objc_getClass("__NSPlaceholderArray") methodSwizzleWithOrigSEL:@selector(initWithObjects:count:) overrideSEL:@selector(safe_initWithObjects:count:)];
+        [objc_getClass("__NSArrayI") methodSwizzleWithOrigSEL:@selector(objectAtIndex:) overrideSEL:@selector(safe_objectAtIndex:)];
+    });
+}
+- (id)safe_objectAtIndex:(int)index {
+    if(index >= 0 && index < self.count) {
+        return [self safe_objectAtIndex:index];
+    }else{
+#if DEBUG
+        NSAssert(NO,nil);
+#endif
+    }
+    return nil;
+}
+- (id)safe_initWithObjects:(const id [])objects count:(NSUInteger)cnt {
+    for (int i=0; i<cnt; i++) {
+        if(objects[i] == nil) {
+#if DEBUG
+            NSAssert(NO,nil);
+#endif
+            return nil;
+        }
+    }
+    return [self safe_initWithObjects:objects count:cnt];
+}
+@end
+
+@implementation NSMutableArray (QFSafeUtil)
++ (void)load {
+    [super load];
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [objc_getClass("__NSArrayM") methodSwizzleWithOrigSEL:@selector(addObject:) overrideSEL:@selector(safe_addObject:)];
+    });
+}
+- (void)safe_addObject:(id)anObject {
+    if(anObject != nil){
+        [self safe_addObject:anObject];
+    }else {
+#if DEBUG
+        NSAssert(NO,nil);
+#endif
+    }
+}
+@end
+
