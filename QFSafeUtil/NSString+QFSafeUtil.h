@@ -11,3 +11,7 @@
 @interface NSString (QFSafeUtil)
 
 @end
+
+@interface NSMutableString (QFSafeUtil)
+
+@end

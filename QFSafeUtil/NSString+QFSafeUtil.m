@@ -14,6 +14,7 @@
     dispatch_once(&onceToken, ^{
         [objc_getClass("__NSCFConstantString") methodSwizzleWithOrigSEL:@selector(hasSuffix:) overrideSEL:@selector(safe_hasSuffix:)];
         [objc_getClass("__NSCFConstantString") methodSwizzleWithOrigSEL:@selector(hasPrefix:) overrideSEL:@selector(safe_hasPrefix:)];
+        [objc_getClass("__NSCFConstantString") methodSwizzleWithOrigSEL:@selector(initWithString:) overrideSEL:@selector(safe_initWithString:)];
     });
 }
 - (BOOL)safe_hasSuffix:(NSString *)str {
@@ -35,5 +36,34 @@
 #endif
     }
     return NO;
+}
+- (instancetype)safe_initWithString:(NSString *)str {
+    if([str isKindOfClass:[NSString class]]){
+        return [self safe_initWithString:str];
+    } else {
+#if DEBUG
+        NSAssert(NO,nil);
+#endif
+    }
+    return nil;
+}
+@end
+
+@implementation NSMutableString (QFSafeUtil)
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [objc_getClass("__NSCFString") methodSwizzleWithOrigSEL:@selector(stringWithString:) overrideSEL:@selector(safe_stringWithString:)];
+    });
+}
++ (instancetype)safe_stringWithString:(NSString *)str {
+    if([str isKindOfClass:[NSString class]]){
+        return [self safe_stringWithString:str];
+    } else {
+#if DEBUG
+        NSAssert(NO,nil);
+#endif
+    }
+    return nil;
 }
 @end
