@@ -24,14 +24,11 @@
 
 - (void)safe_sendAction:(SEL)action to:(id)target forEvent:(UIEvent *)event {
     
-    if ([NSStringFromClass(self.class) isEqualToString:@"UIControl"]) {
-        
-        self.timeInterval = self.timeInterval == 0 ? defaultInterval: self.timeInterval;
-        
-        if (self.isIgnoreEvent) return;
-        else if (self.timeInterval > 0) {
-            [self performSelector:@selector(resetState) withObject:nil afterDelay:self.timeInterval];
-        }
+    self.timeInterval = self.timeInterval == 0 ? defaultInterval: self.timeInterval;
+    
+    if (self.isIgnoreEvent) return;
+    else if (self.timeInterval > 0) {
+        [self performSelector:@selector(resetState) withObject:nil afterDelay:self.timeInterval];
     }
     
     self.isIgnoreEvent = YES;
