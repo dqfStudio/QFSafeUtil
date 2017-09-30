@@ -18,13 +18,13 @@
 + (void)load {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        [objc_getClass("UIButton") methodSwizzleWithOrigSEL:@selector(sendAction:to:forEvent:) overrideSEL:@selector(safe_sendAction:to:forEvent:)];
+        [objc_getClass("UIControl") methodSwizzleWithOrigSEL:@selector(sendAction:to:forEvent:) overrideSEL:@selector(safe_sendAction:to:forEvent:)];
     });
 }
 
 - (void)safe_sendAction:(SEL)action to:(id)target forEvent:(UIEvent *)event {
     
-    if ([NSStringFromClass(self.class) isEqualToString:@"UIButton"]) {
+    if ([NSStringFromClass(self.class) isEqualToString:@"UIControl"]) {
         
         self.timeInterval = self.timeInterval == 0 ? defaultInterval: self.timeInterval;
         
