@@ -8,7 +8,7 @@
 
 #import "UIControl+QFSafeUtil.h"
 
-#define defaultInterval 0.5  //默认时间间隔
+#define KDefaultInterval 0.5  //默认时间间隔
 
 @interface UIControl()
 @property (nonatomic, assign) BOOL isIgnoreEvent;
@@ -24,7 +24,7 @@
 
 - (void)safe_sendAction:(SEL)action to:(id)target forEvent:(UIEvent *)event {
     
-    self.timeInterval = self.timeInterval == 0 ? defaultInterval: self.timeInterval;
+    self.timeInterval = self.timeInterval == 0 ? KDefaultInterval: self.timeInterval;
     
     if (self.isIgnoreEvent) return;
     else if (self.timeInterval > 0) {
