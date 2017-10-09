@@ -18,7 +18,7 @@
 + (void)load {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        [objc_getClass("UIControl") methodSwizzleWithOrigSEL:@selector(sendAction:to:forEvent:) overrideSEL:@selector(safe_sendAction:to:forEvent:)];
+        [[self class] methodSwizzleWithOrigSEL:@selector(sendAction:to:forEvent:) overrideSEL:@selector(safe_sendAction:to:forEvent:)];
     });
 }
 
