@@ -25,12 +25,12 @@
     }
 }
 
-- (void)resume {
-    if (![self isValid]) return ;
+- (void)safe_resume {
+    if (![self isValid]) return;
     [self setFireDate:[NSDate date]];
 }
 
-- (void)pause {
+- (void)safe_pause {
     if (![self isValid]) return;
     [self setFireDate:[NSDate distantFuture]];
 }

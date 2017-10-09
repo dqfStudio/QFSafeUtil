@@ -13,8 +13,8 @@
 + (NSTimer *_Nullable)safe_scheduledTimerWithTimeInterval:(NSTimeInterval)interval repeats:(BOOL)repeats block:(void(^_Nullable)(NSTimer * _Nonnull timer))block;
 
 //恢复
-- (void)resume;
+- (void)safe_resume;
 //暂停
-- (void)pause;
+- (void)safe_pause;
 
 @end
