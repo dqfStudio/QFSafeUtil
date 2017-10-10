@@ -12,12 +12,11 @@
 + (void)methodSwizzleWithOrigSEL:(SEL)origSEL overrideSEL:(SEL)overrideSEL {
     Method origMethod = class_getInstanceMethod([self class], origSEL);
     Method overrideMethod= class_getInstanceMethod([self class], overrideSEL);
-    if(class_addMethod([self class], origSEL, method_getImplementation(overrideMethod),method_getTypeEncoding(overrideMethod)))
-    {
+    if(class_addMethod([self class], origSEL,
+                       method_getImplementation(overrideMethod),
+                       method_getTypeEncoding(overrideMethod))) {
         class_replaceMethod([self class],overrideSEL, method_getImplementation(origMethod), method_getTypeEncoding(origMethod));
-    }
-    else
-    {
+    }else {
         method_exchangeImplementations(origMethod,overrideMethod);
     }
 }
