@@ -9,5 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface NSObject (QFSafeNotify)
-
+- (void)registerNoti:(NSString *)name callback:(void(^)(NSNotification * note))callback;
+- (void)postNoti:(NSString *)name;
+- (void)postNoti:(NSString *)name object:(id)anObject;
 @end
