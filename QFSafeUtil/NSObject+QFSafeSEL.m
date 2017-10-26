@@ -9,6 +9,7 @@
 #import "NSObject+QFSafeSEL.h"
 
 @implementation NSObject (QFSafeSEL)
+#if DEBUG
 + (void)load {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -36,27 +37,21 @@
     if ([self respondsToSelector:aSelector]) {
         [self safe_performSelector:aSelector];
     }else {
-#if DEBUG
         NSAssert(NO,nil);
-#endif
     }
 }
 - (void)safe_performSelector:(SEL)aSelector withObject:(id)object {
     if ([self respondsToSelector:aSelector]) {
         [self safe_performSelector:aSelector withObject:object];
     }else {
-#if DEBUG
         NSAssert(NO,nil);
-#endif
     }
 }
 - (void)safe_performSelector:(SEL)aSelector withObject:(id)object1 withObject:(id)object2 {
     if ([self respondsToSelector:aSelector]) {
         [self safe_performSelector:aSelector withObject:object1 withObject:object2];
     }else {
-#if DEBUG
         NSAssert(NO,nil);
-#endif
     }
 }
 
@@ -65,45 +60,35 @@
     if ([self respondsToSelector:aSelector]) {
         [self safe_performSelectorOnMainThread:aSelector withObject:arg waitUntilDone:wait modes:array];
     }else {
-#if DEBUG
         NSAssert(NO,nil);
-#endif
     }
 }
 - (void)safe_performSelectorOnMainThread:(SEL)aSelector withObject:(nullable id)arg waitUntilDone:(BOOL)wait {
     if ([self respondsToSelector:aSelector]) {
         [self safe_performSelectorOnMainThread:aSelector withObject:arg waitUntilDone:wait];
     }else {
-#if DEBUG
         NSAssert(NO,nil);
-#endif
     }
 }
 - (void)safe_performSelector:(SEL)aSelector onThread:(NSThread *)thr withObject:(nullable id)arg waitUntilDone:(BOOL)wait modes:(nullable NSArray<NSString *> *)array {
     if ([self respondsToSelector:aSelector]) {
         [self safe_performSelector:aSelector onThread:thr withObject:arg waitUntilDone:wait modes:array];
     }else {
-#if DEBUG
         NSAssert(NO,nil);
-#endif
     }
 }
 - (void)safe_performSelector:(SEL)aSelector onThread:(NSThread *)thr withObject:(nullable id)arg waitUntilDone:(BOOL)wait {
     if ([self respondsToSelector:aSelector]) {
         [self safe_performSelector:aSelector onThread:thr withObject:arg waitUntilDone:wait];
     }else {
-#if DEBUG
         NSAssert(NO,nil);
-#endif
     }
 }
 - (void)safe_performSelectorInBackground:(SEL)aSelector withObject:(nullable id)arg {
     if ([self respondsToSelector:aSelector]) {
         [self safe_performSelectorInBackground:aSelector withObject:arg];
     }else {
-#if DEBUG
         NSAssert(NO,nil);
-#endif
     }
 }
 
@@ -112,18 +97,14 @@
     if ([self respondsToSelector:aSelector]) {
         [self safe_performSelector:aSelector withObject:anArgument afterDelay:delay inModes:modes];
     }else {
-#if DEBUG
         NSAssert(NO,nil);
-#endif
     }
 }
 - (void)safe_performSelector:(SEL)aSelector withObject:(nullable id)anArgument afterDelay:(NSTimeInterval)delay {
     if ([self respondsToSelector:aSelector]) {
         [self safe_performSelector:aSelector withObject:anArgument afterDelay:delay];
     }else {
-#if DEBUG
         NSAssert(NO,nil);
-#endif
     }
 }
 
@@ -131,21 +112,17 @@
     if ([self respondsToSelector:aSelector]) {
         [self safe_performSelector:aSelector target:target argument:arg order:order modes:modes];
     }else {
-#if DEBUG
         NSAssert(NO,nil);
-#endif
     }
 }
 - (void)safe_cancelPerformSelector:(SEL)aSelector target:(id)target argument:(nullable id)arg {
     if ([self respondsToSelector:aSelector]) {
         [self safe_cancelPerformSelector:aSelector target:target argument:arg];
     }else {
-#if DEBUG
         NSAssert(NO,nil);
-#endif
     }
 }
-
+#endif
 @end
 
 

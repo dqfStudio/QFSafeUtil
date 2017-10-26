@@ -9,6 +9,7 @@
 #import "NSArray+QFSafeUtil.h"
 
 @implementation NSArray (QFSafeUtil)
+#if DEBUG
 + (void)load {
     [super load];
     static dispatch_once_t onceToken;
@@ -22,9 +23,7 @@
     if(index >= 0 && index < self.count) {
         return [self safe_objectAtIndex:index];
     }else{
-#if DEBUG
         NSAssert(NO,nil);
-#endif
     }
     return nil;
 }
@@ -32,26 +31,24 @@
     if(index >= 0 && index < self.count) {
         return [self safe_objectAtIndexedSubscript:index];
     }else{
-#if DEBUG
         NSAssert(NO,nil);
-#endif
     }
     return nil;
 }
 - (id)safe_initWithObjects:(const id [])objects count:(NSUInteger)cnt {
     for (int i=0; i<cnt; i++) {
         if(objects[i] == nil) {
-#if DEBUG
             NSAssert(NO,nil);
-#endif
             return nil;
         }
     }
     return [self safe_initWithObjects:objects count:cnt];
 }
+#endif
 @end
 
 @implementation NSMutableArray (QFSafeUtil)
+#if DEBUG
 + (void)load {
     [super load];
     static dispatch_once_t onceToken;
@@ -63,10 +60,9 @@
     if(anObject != nil){
         [self safe_addObject:anObject];
     }else {
-#if DEBUG
         NSAssert(NO,nil);
-#endif
     }
 }
+#endif
 @end
 

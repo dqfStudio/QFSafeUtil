@@ -9,6 +9,7 @@
 #import "NSString+QFSafeUtil.h"
 
 @implementation NSString (QFSafeUtil)
+#if DEBUG
 + (void)load {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -21,9 +22,7 @@
     if([str isKindOfClass:[NSString class]]){
         return [self safe_hasSuffix:str];
     } else {
-#if DEBUG
         NSAssert(NO,nil);
-#endif
     }
     return NO;
 }
@@ -31,9 +30,7 @@
     if([str isKindOfClass:[NSString class]]){
         return [self safe_hasPrefix:str];
     } else {
-#if DEBUG
         NSAssert(NO,nil);
-#endif
     }
     return NO;
 }
@@ -41,10 +38,9 @@
     if([str isKindOfClass:[NSString class]]){
         return [self safe_initWithString:str];
     } else {
-#if DEBUG
         NSAssert(NO,nil);
-#endif
     }
     return nil;
 }
+#endif
 @end

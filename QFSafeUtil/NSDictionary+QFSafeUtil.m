@@ -9,6 +9,7 @@
 #import "NSDictionary+QFSafeUtil.h"
 
 @implementation NSDictionary (QFSafeUtil)
+#if DEBUG
 + (void)load {
     [super load];
     static dispatch_once_t onceToken;
@@ -20,15 +21,15 @@
     if (aKey != nil) {
         return [self safe_objectForKey:aKey];
     }else {
-#if DEBUG
         NSAssert(NO,nil);
-#endif
     }
     return nil;
 }
+#endif
 @end
 
 @implementation NSMutableDictionary (QFSafeUtil)
+#if DEBUG
 + (void)load {
     [super load];
     static dispatch_once_t onceToken;
@@ -40,10 +41,9 @@
     if (aKey != nil) {
         [self safe_setObject:anObject forKey:aKey];
     }else {
-#if DEBUG
         NSAssert(NO,nil);
-#endif
     }
 }
+#endif
 @end
 
